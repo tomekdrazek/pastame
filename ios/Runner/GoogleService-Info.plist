@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>230809507437-rf5hdjp76thm4c80ggn2fm3qvahqosg5.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.230809507437-rf5hdjp76thm4c80ggn2fm3qvahqosg5</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBjmjUgDc-4cQ9vd2qz2Lm-xX4eXkvu130</string>
+	<key>GCM_SENDER_ID</key>
+	<string>230809507437</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.pastame</string>
+	<key>PROJECT_ID</key>
+	<string>pasta-me</string>
+	<key>STORAGE_BUCKET</key>
+	<string>pasta-me.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:230809507437:ios:405c06e9499bee368b5164</string>
+	<key>DATABASE_URL</key>
+	<string>https://pasta-me-default-rtdb.europe-west1.firebasedatabase.app</string>
+</dict>
+</plist>
