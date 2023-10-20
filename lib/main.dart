@@ -1,13 +1,25 @@
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'app.dart';
+import 'package:flutter/foundation.dart' as flutter_foundation;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  if (flutter_foundation.kDebugMode) {
+    try {
+      FirebaseDatabase.instance.useDatabaseEmulator('192.168.8.110', 9000);
+      debugPrint("Using Firebase Emulator");
+      // await FirebaseAuth.instance.useAuthEmulator('localhost', 9099);
+    } catch (e) {
+      // ignore: avoid_print
+      print(e);
+    }
+  }
   runApp(const PastaMeApp());
 }
 

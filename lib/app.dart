@@ -17,48 +17,64 @@ class _MyHomePageState extends State<MyHomePage> {
   final FirebaseDatabase database = FirebaseDatabase.instance;
 
   void _onDetect(String barcode) async {
+    debugPrint("_onDetect: $barcode");
     DatabaseReference ref = database.ref("p/$barcode");
     DatabaseEvent ev = await ref.once();
-    setState(() {
-      _productDetails = ProductDetails.fromSnapshot(ev.snapshot);
-      _barcode = barcode;
-      if (_productDetails != null) {
-        _selectedIndex = 1;
-      }
-    });
+    debugPrint("_onDetect Snapshot: ${ev.snapshot.value}");
+
+    if (ev.snapshot.value != null) {
+      setState(() {
+        Map map = ev.snapshot.value as Map;
+        _productDetails = ProductDetails(barcode: barcode, value: map);
+        if (_productDetails != null && barcode != _barcode) {
+          _selectedIndex = 1;
+          _barcode = barcode;
+        }
+      });
+    }
   }
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      if (_productDetails != null) {
+        _selectedIndex = index;
+      } else {
+        _selectedIndex = 0;
+      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
     Widget body;
-    if (_selectedIndex == 0) {
+    if (_selectedIndex == 0 || _productDetails == null) {
       body = PastaBarcodeScanner(onDetect: _onDetect);
+    } else if (_selectedIndex == 1) {
+      ProductDetails details = _productDetails!;
+      body = ProductPage(title: _barcode, details: details);
     } else {
-      body = ProductPage(title: _barcode, details: _productDetails);
+      body = const Text("Unknown");
     }
+    List<BottomNavigationBarItem> bottomNavBarItems = [];
+    bottomNavBarItems.add(const BottomNavigationBarItem(
+        icon: Icon(Icons.qr_code_scanner), label: "Scan"));
+    if (_productDetails != null) {
+      bottomNavBarItems.add(const BottomNavigationBarItem(
+        icon: Icon(Icons.info_outline),
+        label: "Product",
+      ));
+    }
+    bottomNavBarItems.add(const BottomNavigationBarItem(
+        icon: Icon(Icons.question_mark), label: "About"));
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
       body: body,
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: _incrementCounter,
-      //   tooltip: 'Increment',
-      //   child: const Icon(Icons.add),
-      // ), // This trailing comma makes auto-formatting nicer for build methods.
-      bottomNavigationBar:
-          BottomNavigationBar(items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-            icon: Icon(Icons.qr_code_scanner), label: "Scan"),
-        BottomNavigationBarItem(
-            icon: Icon(Icons.info_outline), label: "Product"),
-      ], currentIndex: _selectedIndex, onTap: _onItemTapped),
+      bottomNavigationBar: BottomNavigationBar(
+          items: bottomNavBarItems,
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped),
     );
   }
 }
